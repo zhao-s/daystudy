@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/jquery.twbsPagination.js"></script>
 </head>
 
 <body>
@@ -23,16 +25,16 @@
                 <div class="col-xs-6">
                     <form class="form-inline">
                         <select id="selCategory" name="" class="form-control input-sm">
-                            <option>所有分类</option>
+                            <option value="">所有分类</option>
                             <option>未分类</option>
                             <option>奇趣事</option>
                             <option>会生活</option>
                             <option>爱旅行</option>
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
                         <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
                     </form>
@@ -58,7 +60,7 @@
 
 
                     <tr>
-                        
+
                         <td>王积千造统最头</td>
                         <td>杰克</td>
                         <td>奇趣事</td>
@@ -77,7 +79,7 @@
 
 
                     <tr>
-                     
+
                         <td>级电使正回</td>
                         <td>肉丝</td>
                         <td>爱旅行</td>
@@ -96,7 +98,7 @@
 
 
                     <tr>
-                       
+
                         <td>近难领管年算</td>
                         <td>杰克</td>
                         <td>会生活</td>
@@ -115,7 +117,7 @@
 
 
                     <tr>
-                       
+
                         <td>龙大实究</td>
                         <td>杰克</td>
                         <td>未分类</td>
@@ -134,7 +136,7 @@
 
 
                     <tr>
-                      
+
                         <td>算性得走来拉</td>
                         <td>肉丝</td>
                         <td>奇趣事</td>
@@ -153,7 +155,7 @@
 
 
                     <tr>
-                      
+
                         <td>几平会出气</td>
                         <td>管理员</td>
                         <td>奇趣事</td>
@@ -172,7 +174,7 @@
 
 
                     <tr>
-                      
+
                         <td>世团先证型角</td>
                         <td>杰克</td>
                         <td>奇趣事</td>
@@ -191,7 +193,7 @@
 
 
                     <tr>
-                      
+
                         <td>构更反步五</td>
                         <td>肉丝</td>
                         <td>奇趣事</td>
@@ -210,7 +212,7 @@
 
 
                     <tr>
-                       
+
                         <td>组方些</td>
                         <td>肉丝</td>
                         <td>会生活</td>
@@ -229,7 +231,7 @@
 
 
                     <tr>
-                      
+
                         <td>日做发光成</td>
                         <td>管理员</td>
                         <td>爱旅行</td>
@@ -250,31 +252,114 @@
             </table>
 
             <div class="row text-center">
-            <ul class="pagination pagination-sm">
-                <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
-                <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                <li class="page-item"><a href="#" class="page-link">6</a></li>
-                <li class="page-item"><a href="#" class="page-link">7</a></li>
-                <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-            </ul>
-        </div>
+                <ul class="pagination pagination-sm">
+                    <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                    <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" class="page-link">6</a></li>
+                    <li class="page-item"><a href="#" class="page-link">7</a></li>
+                    <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+                </ul>
+            </div>
 
         </div>
     </div>
 
     <script>
         // 设置左侧菜单
-        $('#release_btn').click(function(){
-            window.parent.setMenu(1,1);
+        $('#release_btn').click(function () {
+            window.parent.setMenu(1, 1);
         })
     </script>
 
+    <script id="cateList" type="text/html">
+    <option value="">所有分类</option>
+    {{each data v}}
+    <option value="{{v.id}}">{{v.name}}</option>
+    {{/each}}
+    </script>
+
+    <script id="articleList" type="text/html">
+        {{each data.data v}}
+        <tr>
+            <td>{{v.title}}</td>
+            <td>{{v.author}}</td>
+            <td>{{v.category}}</td>
+            <td class="text-center">{{v.date}}</td>
+            <td class="text-center">{{v.state}}</td>
+           <td class="text-center">
+               <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+               <a href="javascript:deleteTr(1005);" data-id='{{v.id}}' class="btn btn-danger btn-xs">删除</a>
+           </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script>
+        $(function () {
+            function getData(myPage) {
+                $.ajax({
+                    type: 'get',
+                    url: 'http://localhost:8080/admin/article/query',
+                    data: {
+                        page: myPage,
+                        perpage: 5
+                    },
+                    success: function (backData) {
+                        var resHtml = template('articleList', backData);
+                        $('tbody').html(resHtml);
+                    }
+                })
+            }
+            getData(1);
+            $.ajax({
+                type: 'get',
+                url: 'http://127.0.0.1:8080/admin/category/list',
+                success: function (backData) {
+                    if (backData.code == 200) {
+                        var resHtml = template('cateList', backData);
+                        $('#selCategory').html(resHtml);
+                    }
+                }
+            })
+
+            $('.pagination').twbsPagination({
+                totalPages: 45,
+                visiblePages: 5,
+                onPageClick: function (event, page) {
+                    getData(page);
+                }
+            })
+
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+
+                var cateType = $('#selCategory').val();
+                var cateState = $('#selStatus').val();
+                $.ajax({
+                    type: 'get',
+                    url: 'http://localhost:8080/admin/article/query',
+                    data: {
+                        type: cateType,
+                        state: cateState,
+                        page: 1,
+                        perpage: 5
+                    },
+                    success: function (backData) {
+                        var resHtml = template('articleList', backData);
+                        $('tbody').html(resHtml);
+                    }
+                })
+            })
+        })
+
+
+    </script>
 </body>
 
 </html>
