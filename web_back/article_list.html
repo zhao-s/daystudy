@@ -276,14 +276,14 @@
             window.parent.setMenu(1, 1);
         })
     </script>
-
+    <!-- 准备一个 文章分类 模板 -->
     <script id="cateList" type="text/html">
     <option value="">所有分类</option>
     {{each data v}}
     <option value="{{v.id}}">{{v.name}}</option>
     {{/each}}
     </script>
-
+    <!-- 准备一个 文章列表 模板 -->
     <script id="articleList" type="text/html">
         {{each data.data v}}
         <tr>
@@ -301,46 +301,67 @@
     </script>
 
     <script>
+        //入口函数
         $(function () {
-            function getData(myPage) {
+            function getData(myPage,cateType,cateState) {
                 $.ajax({
                     type: 'get',
                     url: 'http://localhost:8080/admin/article/query',
                     data: {
+                        type:cateType,
+                        state:cateState,
                         page: myPage,
                         perpage: 5
                     },
                     success: function (backData) {
+                        //4.把这些文章通过模板引擎渲染到页面
                         var resHtml = template('articleList', backData);
                         $('tbody').html(resHtml);
+
+                        var tot
                     }
                 })
             }
+            //需求:一进文章列表页面,就要显示真实存在的文章
+            //思路:一进到页面,就触发搜索按钮事件
+            //$('#btnSearch').trigger(''clcik);
+            //思路:一进到页面,自己去发送ajax请求,获取数据,渲染
             getData(1);
+
+
+            //需求:一进到页面,显示所有的文章分类
+            //1.一进到页面发送ajax获取所有的文章分类
             $.ajax({
                 type: 'get',
                 url: 'http://127.0.0.1:8080/admin/category/list',
                 success: function (backData) {
                     if (backData.code == 200) {
+                        //2.通过模板引擎渲染到筛选按钮 左边的下拉菜单中
                         var resHtml = template('cateList', backData);
                         $('#selCategory').html(resHtml);
                     }
                 }
             })
-
+            //需求:分页
             $('.pagination').twbsPagination({
-                totalPages: 45,
-                visiblePages: 5,
+                totalPages: 45,//总页面
+                visiblePages: 5,//可见页签数
+                //什么时候执行这个方法 点击页签的时候会触发
                 onPageClick: function (event, page) {
                     getData(page);
                 }
             })
 
-            $('#btnSearch').on('click', function (e) {
-                e.preventDefault();
 
+            //需求:点击筛选按钮,筛选出符合文件的文章,渲染到页面
+            //1.给筛选按钮设置点击事件
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();//阻止默认跳转
+                //2.获取筛选条件
+                //修改下拉菜单的value值
                 var cateType = $('#selCategory').val();
                 var cateState = $('#selStatus').val();
+                //3.发送ajax请求,获取到符合条件的文件
                 $.ajax({
                     type: 'get',
                     url: 'http://localhost:8080/admin/article/query',
@@ -351,6 +372,7 @@
                         perpage: 5
                     },
                     success: function (backData) {
+                        //4.把这些文章通过模板引擎渲染到页面
                         var resHtml = template('articleList', backData);
                         $('tbody').html(resHtml);
                     }
