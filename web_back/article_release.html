@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <img src="" alt="">
+                        <img src="" alt="" style="height:100px">
                         <input type="file" name="cover" id="exampleInputFile">
                     </div>
                 </div>
@@ -67,8 +67,8 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="rich_content"  placeholder="文章内容">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
+                        <textarea class="form-control" id="rich_content" placeholder="文章内容">
+
                             </textarea>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                 url: 'http://127.0.0.1:8080/admin/category/list',
                 success: function (backData) {
                     console.log(backData);
-                    
+
                     if (backData.code == 200) {
                         var resHtml = template('cateList', backData);
                         $('#article_category').html(resHtml);
@@ -116,24 +116,24 @@
             $('#dateinput').val(str);
 
 
-            $('.btn-release').on('click',function(e){
+            $('.btn-release').on('click', function (e) {
                 e.preventDefault();
                 var fd = new FormData($('form')[0]);
 
-                fd.append('content',tinyMCE.activeEditor.getContent());
+                fd.append('content', tinyMCE.activeEditor.getContent());
 
-                fd.append('state','已发布');
+                fd.append('state', '已发布');
 
                 $.ajax({
-                    type:'post',
-                    url:'http://localhost:8080/admin/article/publish',
-                    contentType:false,
-                    processData:false,
-                    data:fd,
-                    success:function(backData){
+                    type: 'post',
+                    url: 'http://localhost:8080/admin/article/publish',
+                    contentType: false,
+                    processData: false,
+                    data: fd,
+                    success: function (backData) {
                         console.log(backData);
-                        
-                        if (backData.code==200) {
+
+                        if (backData.code == 200) {
                             alert('发布成功!')
                         }
                     }

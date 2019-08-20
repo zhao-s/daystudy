@@ -205,6 +205,40 @@
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
+    <script src="./js/template-web.js"></script>
+    <script id="author_list" type="text/html">
+    {{data.author}}发布于{{data.date}} &nbsp;&nbsp;&nbsp;分类: {{data.category}}&nbsp;&nbsp;&nbsp;阅读:
+    ({{data.read}})&nbsp;&nbsp;&nbsp;评论: ({{data.comments}})
+    </script>
+
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function () {
+
+            var id = window.location.search.split('=')[1];
+
+            $.ajax({
+                type: 'get',
+                url: 'http://127.0.0.1:8080/index/article',
+                data: {
+                    id: id
+                },
+                success: function (backData) {
+                    console.log(backData);
+                    if (backData.code == 200) {
+                        $('.article_title').text(backData.data.title);
+                        $('.article_con').html(backData.data.content);
+                        var resH = template('author_list', backData);
+                        $('.article_info').html(resH)
+                    }
+                }
+            })
+        })
+
+
+
+    </script>
+
 </body>
 
 </html>
